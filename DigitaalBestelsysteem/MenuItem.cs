@@ -9,11 +9,11 @@ namespace DigitaalBestelsysteem
     internal class MenuItem
     {
         public int Id { get; set; }
-        public string Naam { get; set; } = "";
-        public decimal Prijs { get; set; }
-        public string Categorie { get; set; } = "Overig";
-        public string Omschrijving { get; set; } = "Geen omschrijving";
-        public bool IsDagfavoriet { get; set; } = false;
+        public string Name { get; set; } = "";
+        public decimal Price{ get; set; }
+        public string Category { get; set; } = "Overig";
+        public string Description { get; set; } = "Geen omschrijving";
+        public bool IsFavoriteDishOfTheDay { get; set; } = false;
 
     }
 }
