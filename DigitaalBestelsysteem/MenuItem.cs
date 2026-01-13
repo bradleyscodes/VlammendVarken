@@ -13,7 +13,7 @@ namespace DigitaalBestelsysteem
         public decimal Prijs { get; set; }
         public string Categorie { get; set; } = "Overig";
         public string Omschrijving { get; set; } = "Geen omschrijving";
-        public bool IsDagfavoriet { get; set; } 
+        public bool IsDagfavoriet { get; set; } = false;
 
     }
 }
