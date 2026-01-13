@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DigitaalBestelsysteem
+{
+    internal class MenuItem
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public decimal Price{ get; set; }
+        public string Category { get; set; } = "Overig";
+        public string Description { get; set; } = "Geen omschrijving";
+        public bool IsFavoriteDishOfTheDay { get; set; } = false;
+
+    }
+}
