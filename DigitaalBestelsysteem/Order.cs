@@ -9,9 +9,26 @@ namespace DigitaalBestelsysteem
     public class Order
     {
         public int Id { get; set; }
-        public DateTime Time { get; set; }
-        public string Name { get; set; } = "";
-        public decimal Price { get; set; }
-        public string Status { get; set; } = "In behandeling";
+        public int TableNumber { get; set; }
+        public DateTime CreatedAt { get; set; }
+        
+        public OrderStatus Status { get; set; } 
+
+        public List<OrderLine> Lines { get; set; }
+
+        public decimal Total => Lines.Sum(1 => 1.LineTotal);
+
+
+        // Constructor
+
+        public Order(int id, int tableNumber)
+        {
+            Id = id;
+            TableNumber = tableNumber;
+            CreatedAt = DateTime.Now;
+            Status = OrderStatus.Geplaatst;
+            Lines = new List<OrderLine>();
+        }
+              
     }
 }
