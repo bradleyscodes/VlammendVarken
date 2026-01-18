@@ -25,7 +25,8 @@ namespace DigitaalBestelsysteem
             while (running)
             {
                 Console.Clear();
-                Console.WriteLine("Welkom bij restaurant Vlammend Varken!");
+                Console.WriteLine("\"Welkom bij Vlammend Varken. Genieten staat bij ons centraal. Eet smakelijk!\"");
+                Console.WriteLine();
                 Console.WriteLine("1. Nieuw gerecht aanmaken");
                 Console.WriteLine("2. Het menu bekijken");
                 Console.WriteLine("3. Een bestelling plaatsen");
