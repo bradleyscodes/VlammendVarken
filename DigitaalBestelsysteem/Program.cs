@@ -94,7 +94,7 @@ namespace DigitaalBestelsysteem
             MenuItem item = new MenuItem(nextMenuId++, name, price, category, description);
             menu.Add(item);
 
-            Console.WriteLine("Gerecht toegevoegd aan het menu.");
+            Pauze("Gerecht toegevoegd aan het menu.");
         }
 
         static void ToonMenu()
@@ -147,9 +147,13 @@ namespace DigitaalBestelsysteem
             Console.WriteLine("Inzicht in bezette en vrije tafels");
         }
 
-        static void Pauze()
+        static void Pauze(string tekst = "")
         {
-            Console.WriteLine("Druk op een toets om verder te gaan...");
+            if (tekst != "")
+                Console.WriteLine(tekst);
+
+            Console.WriteLine();
+            Console.Write("Druk op ENTER om verder te gaan...");
             Console.ReadLine();
         }
 
