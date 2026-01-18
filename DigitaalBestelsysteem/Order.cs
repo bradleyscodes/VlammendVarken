@@ -16,7 +16,7 @@ namespace DigitaalBestelsysteem
 
         public List<OrderLine> Lines { get; set; }
 
-        public decimal Total => Lines.Sum(1 => 1.LineTotal);
+        //public decimal Total => Lines.Sum(1 => 1.LineTotal);
 
 
         // Constructor

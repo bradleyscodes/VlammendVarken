@@ -1,34 +1,157 @@
-﻿namespace DigitaalBestelsysteem
+﻿using System.Text;
+
+namespace DigitaalBestelsysteem
 {
-    internal class Program
+    public class Program
     {
-              
+        static List<MenuItem> menu = new List<MenuItem>();
+        static List<Order> orders = new List<Order>();
+
+        static int nextMenuId = 1;
+        static int nextOrderId = 1;
+
         static void Main(string[] args)
-        {   
-            // Menu lijst aanmaken
-            List<MenuItem> menu = new List<MenuItem>();
+        {
+            Console.OutputEncoding = Encoding.UTF8;
 
-            // Een paar gerechten toevoegen aan het menu
-            menu.Add(new MenuItem { Id = 1, Name = "Spaghetti Bolognese", Price = 12.50m, Category = "Pasta", Description = "Heerlijke spaghetti met een rijke bolognesesaus.", IsFavoriteDishOfTheDay = true });
-            menu.Add(new MenuItem { Id = 2, Name = "Margherita Pizza", Price = 10.00m, Category = "Pizza", Description = "Klassieke pizza met tomaat, mozzarella en verse basilicum." });
-            menu.Add(new MenuItem { Id = 3, Name = "Caesar Salad", Price = 8.50m, Category = "Salad", Description = "Frisse salade met romaine sla, croutons en Caesar dressing." });
+            menu.Add(new MenuItem(nextMenuId++, "Pulled Pork Burger", 14.50m, "Hoofdgerecht", "Sappige pulled pork van de grill op een brioche bun, met BBQ-saus en coleslaw.", true));
+            menu.Add(new MenuItem(nextMenuId++, "Varkensribben van de Grill", 18.00m, "Hoofdgerecht", "Langzaam gegaarde spareribs, gelakt met onze huisgemaakte Vlammend Varken BBQ-saus."));
+            menu.Add(new MenuItem(nextMenuId++, "BBQ Nacho’s", 8.00m, "Voorgerecht", "Nacho’s met pulled pork, gesmolten kaas, jalapeños en BBQ-saus."));
+            menu.Add(new MenuItem(nextMenuId++, "Loaded Fries Pulled Pork", 7.50m, "Voorgerecht", "Friet met pulled pork, cheddarkaas, bosui en BBQ-saus."));
+            menu.Add(new MenuItem(nextMenuId++, "Chocolade Lava Cake", 6.50m, "Nagerecht", "Warm chocoladetaartje met een zachte, vloeibare kern, geserveerd met vanille-ijs."));
+            menu.Add(new MenuItem(nextMenuId++, "Gegrilde Ananas met Kaneelsuiker", 5.50m, "Nagerecht", "Zoete ananas van de grill met kaneelsuiker en een bolletje romig vanille-ijs."));
 
-            // Menu weergeven
-            Console.WriteLine("Menu:");
-
-            for (int i = 0; i < menu.Count; i++)
+            bool running = true;
+            while (running)
             {
-                MenuItem item = menu[i];
-                Console.WriteLine($"{item.Id}. {item.Name} - €{item.Price} ({item.Category})");
-                Console.WriteLine($"   {item.Description}");
-                if (item.IsFavoriteDishOfTheDay)
-                {
-                    Console.WriteLine("   * Favoriete gerecht van de dag *");
-                }
+                Console.Clear();
+                Console.WriteLine("Welkom bij restaurant Vlammend Varken!");
+                Console.WriteLine("1. Nieuw gerecht aanmaken");
+                Console.WriteLine("2. Het menu bekijken");
+                Console.WriteLine("3. Een bestelling plaatsen");
+                Console.WriteLine("4. Een gerecht aanpassen");
+                Console.WriteLine("5. Status van een bestelling bekijken");
+                Console.WriteLine("6. Alle geplaatste bestellingen tonen");
+                Console.WriteLine("7. Inzicht in bezette en vrije tafels");
+                Console.WriteLine("0. Programma beëindigen");
+                Console.WriteLine();
 
-                Console.WriteLine("\nDruk op Enter om af te sluiten...");
-                Console.ReadLine();
+                Console.Write("Maak een keuze: ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        NieuwGerecht();
+                        break;
+                    case "2":
+                        ToonMenu();
+                        break;
+                    case "3":
+                        BestellingPlaatsen();
+                        break;
+                    case "4":
+                        GerechtAanpassen();
+                        break;
+                    case "5":
+                        BestellingStatusBekijken();
+                        break;
+                    case "6":
+                        ToonAlleBestellingen();
+                        break;
+                    case "7":
+                        ToonTafels();
+                        break;
+                    case "0":
+                        running = false;
+                        break;
+                    default:
+                        Console.WriteLine("Ongeldige keuze.");
+                        break;
+                }
             }
         }
+
+        static void NieuwGerecht()
+        {
+            // Implementatie voor het aanmaken van een nieuw gerecht
+            Console.Clear();
+            Console.WriteLine("Nieuw gerecht aanmaken");
+            Console.WriteLine();
+
+            Console.Write("Naam: ");
+            string name = Console.ReadLine();
+
+            Console.Write("Prijs: ");
+            decimal price = decimal.Parse(Console.ReadLine());
+
+            Console.Write("Categorie: ");
+            string category = Console.ReadLine();
+
+            Console.Write("Beschrijving: ");
+            string description = Console.ReadLine();
+
+            MenuItem item = new MenuItem(nextMenuId++, name, price, category, description);
+            menu.Add(item);
+
+            Console.WriteLine("Gerecht toegevoegd aan het menu.");
+        }
+
+        static void ToonMenu()
+        {
+            // Implementatie voor het tonen van het menu
+            Console.Clear();
+            Console.WriteLine("Menu:");
+            Console.WriteLine();
+
+            if (menu.Count == 0)
+            {
+                Console.WriteLine("Het menu is leeg.");
+                Pauze();
+                return;
+            }
+
+            foreach (var item in menu)
+            {
+                Console.WriteLine($"{item.Id}. {item.Name} - €{item.Price} ({item.Category})");
+                Console.WriteLine($"   {item.Description}");
+                Console.WriteLine();
+            }
+            Pauze();
+        }
+
+        static void BestellingPlaatsen()
+        {
+            // Implementatie voor het plaatsen van een bestelling
+            Console.WriteLine("Bestelling plaatsen");
+        }
+
+        static void GerechtAanpassen()
+        {
+            // Implementatie voor het aanpassen van een gerecht
+            Console.WriteLine("Gerecht aanpassen");
+        }
+        static void BestellingStatusBekijken()
+        {
+            // Implementatie voor het bekijken van de status van een bestelling
+            Console.WriteLine("Status van een bestelling bekijken");
+        }
+        static void ToonAlleBestellingen()
+        {
+            // Implementatie voor het tonen van alle bestellingen
+            Console.WriteLine("Alle geplaatste bestellingen:");
+        }
+
+        static void ToonTafels()
+        {             // Implementatie voor het tonen van bezette en vrije tafels
+            Console.WriteLine("Inzicht in bezette en vrije tafels");
+        }
+
+        static void Pauze()
+        {
+            Console.WriteLine("Druk op een toets om verder te gaan...");
+            Console.ReadLine();
+        }
+
     }
-}
+}   

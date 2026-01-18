@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace DigitaalBestelsysteem
 {
-    public class OrderStatus
-    {
-        public enum Status
+        public enum OrderStatus
         {
             Geplaatst = 1,
             InBehandeling = 2,
             Klaar = 3,
             Geserveerd = 4,
         }
-    }
+ 
 }
