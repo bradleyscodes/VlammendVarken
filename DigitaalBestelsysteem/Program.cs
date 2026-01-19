@@ -116,7 +116,7 @@ namespace DigitaalBestelsysteem
             foreach (var item in menu)
             {
                 Console.WriteLine($"{item.Id}. {item.Name} - €{item.Price} ({item.Category})");
-                Console.WriteLine($"   {item.Description}");
+                Console.WriteLine($"{item.Description}");
                 Console.WriteLine();
             }
             Pauze();
