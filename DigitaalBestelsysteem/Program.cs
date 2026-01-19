@@ -38,9 +38,9 @@ namespace DigitaalBestelsysteem
                 Console.WriteLine();
 
                 Console.Write("Maak een keuze: ");
-                string choice = Console.ReadLine();
+                string keuze = Console.ReadLine();
 
-                switch (choice)
+                switch (keuze)
                 {
                     case "1":
                         NieuwGerecht();
@@ -121,11 +121,97 @@ namespace DigitaalBestelsysteem
             }
             Pauze();
         }
+        // Extra methode om menu te printen zonder pauze
+        static void PrintMenu()
+        {
+            Console.WriteLine("-- Menu --");
+            Console.WriteLine();
+
+            for (int i = 0; i < menu.Count; i++)
+            {
+                MenuItem item = menu[i];
+                Console.WriteLine($"{item.Id}. {item.Name} - €{item.Price} ({item.Category})");
+                Console.WriteLine($"{item.Description}");
+                Console.WriteLine();
+            }
+        }
 
         static void BestellingPlaatsen()
         {
             // Implementatie voor het plaatsen van een bestelling
-            Console.WriteLine("Bestelling plaatsen");
+            Console.Clear();
+            Console.WriteLine("-- Bestelling plaatsen --");
+            Console.WriteLine();
+
+            if (menu.Count == 0)
+            {
+                Pauze("Het menu is leeg. Er kunnen geen bestellingen worden geplaatst.");
+                return;
+            }
+
+            Console.Write("Tafelnummer: ");
+            int tafel = int.Parse(Console.ReadLine());
+
+            Order order = new Order(nextOrderId++, tafel);
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($"Bestelling #{order.Id} | Tafel {order.TableNumber}");
+                Console.WriteLine();
+
+                // Menu tonen zonder pauze
+                PrintMenu();
+
+
+                Console.Write("Kies menu-id (0 = afronden): ");
+                int id = int.Parse(Console.ReadLine());
+
+                if (id == 0)
+                {
+                    break;
+                }
+
+                MenuItem gekozen = ZoekMenuItemOpId(id);
+
+                if (gekozen == null)
+                {
+                    Console.WriteLine("Ongeldig menu-id.");
+                    Pauze();
+                    continue;
+                }
+
+                Console.Write("Aantal: ");
+                int aantal = int.Parse(Console.ReadLine());
+
+                order.Lines.Add(new OrderLine(gekozen, aantal));
+                Console.WriteLine($"{aantal} x {gekozen.Name} toegevoegd aan de bestelling.");
+                Pauze();
+            }
+
+
+            if (order.Lines.Count == 0)
+            {
+                Pauze($"De bestelling is opgeslagen.");
+            }
+            else
+            {
+                Pauze("Er zijn geen items toegevoegd. De bestelling is niet opgeslagen.");
+            }
+
+            static MenuItem ZoekMenuItemOpId(int id)
+            {
+                foreach (var item in menu)
+                {
+                    if (item.Id == id)
+                    {
+                        return item;
+                    }
+                }
+                return null;
+            }
+
+
         }
 
         static void GerechtAanpassen()
