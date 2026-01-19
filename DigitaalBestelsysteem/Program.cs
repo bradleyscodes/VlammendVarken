@@ -219,11 +219,13 @@ namespace DigitaalBestelsysteem
             // Implementatie voor het aanpassen van een gerecht
             Console.WriteLine("Gerecht aanpassen");
         }
+
         static void BestellingStatusBekijken()
         {
             // Implementatie voor het bekijken van de status van een bestelling
             Console.WriteLine("Status van een bestelling bekijken");
         }
+        
         static void ToonAlleBestellingen()
         {
             // Implementatie voor het tonen van alle bestellingen
@@ -231,7 +233,7 @@ namespace DigitaalBestelsysteem
         }
 
         static void ToonTafels()
-        {             // Implementatie voor het tonen van bezette en vrije tafels
+        {   // Implementatie voor het tonen van bezette en vrije tafels
             Console.WriteLine("Inzicht in bezette en vrije tafels");
         }
 
