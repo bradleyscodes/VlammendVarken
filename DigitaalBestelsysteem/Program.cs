@@ -77,7 +77,7 @@ namespace DigitaalBestelsysteem
         {
             // Implementatie voor het aanmaken van een nieuw gerecht
             Console.Clear();
-            Console.WriteLine("Nieuw gerecht aanmaken");
+            Console.WriteLine("-- Nieuw gerecht aanmaken --");
             Console.WriteLine();
 
             Console.Write("Naam: ");
@@ -95,14 +95,15 @@ namespace DigitaalBestelsysteem
             MenuItem item = new MenuItem(nextMenuId++, name, price, category, description);
             menu.Add(item);
 
-            Pauze("Gerecht toegevoegd aan het menu.");
+            Console.WriteLine();
+            Pauze("Het gerecht is toegevoegd aan het menu.");
         }
 
         static void ToonMenu()
         {
             // Implementatie voor het tonen van het menu
             Console.Clear();
-            Console.WriteLine("Menu:");
+            Console.WriteLine("-- Menu --");
             Console.WriteLine();
 
             if (menu.Count == 0)
