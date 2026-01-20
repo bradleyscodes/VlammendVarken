@@ -73,7 +73,7 @@ namespace DigitaalBestelsysteem
             }
         }
 
-        static void NieuwGerecht()
+         static void NieuwGerecht()
         {
             // Implementatie voor het aanmaken van een nieuw gerecht
             Console.Clear();

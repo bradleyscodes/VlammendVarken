@@ -11,13 +11,7 @@ namespace DigitaalBestelsysteem
         public int Id { get; set; }
         public int TableNumber { get; set; }
         public DateTime CreatedAt { get; set; }
-        
-        public OrderStatus Status { get; set; } 
-
         public List<OrderLine> Lines { get; set; }
-
-        //public decimal Total => Lines.Sum(1 => 1.LineTotal);
-
 
         // Constructor
 
@@ -26,7 +20,6 @@ namespace DigitaalBestelsysteem
             Id = id;
             TableNumber = tableNumber;
             CreatedAt = DateTime.Now;
-            Status = OrderStatus.Geplaatst;
             Lines = new List<OrderLine>();
         }
               
