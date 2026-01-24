@@ -1,39 +1,25 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
 namespace DigitaalBestelsysteem
 {
     public class Program
     {
-        static List<MenuItem> menu = new List<MenuItem>();
-        static List<Order> orders = new List<Order>();
-
-        static int nextMenuId = 1;
-        static int nextOrderId = 1;
-
+ 
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
-
-            menu.Add(new MenuItem(nextMenuId++, "Pulled Pork Burger", 14.50m, "Hoofdgerecht", "Sappige pulled pork van de grill op een brioche bun, met BBQ-saus en coleslaw.", true));
-            menu.Add(new MenuItem(nextMenuId++, "Varkensribben van de Grill", 18.00m, "Hoofdgerecht", "Langzaam gegaarde spareribs, gelakt met onze huisgemaakte Vlammend Varken BBQ-saus."));
-            menu.Add(new MenuItem(nextMenuId++, "BBQ Nacho’s", 8.00m, "Voorgerecht", "Nacho’s met pulled pork, gesmolten kaas, jalapeños en BBQ-saus."));
-            menu.Add(new MenuItem(nextMenuId++, "Loaded Fries Pulled Pork", 7.50m, "Voorgerecht", "Friet met pulled pork, cheddarkaas, bosui en BBQ-saus."));
-            menu.Add(new MenuItem(nextMenuId++, "Chocolade Lava Cake", 6.50m, "Nagerecht", "Warm chocoladetaartje met een zachte, vloeibare kern, geserveerd met vanille-ijs."));
-            menu.Add(new MenuItem(nextMenuId++, "Gegrilde Ananas met Kaneelsuiker", 5.50m, "Nagerecht", "Zoete ananas van de grill met kaneelsuiker en een bolletje romig vanille-ijs."));
+            DAL dAL = new DAL();
 
             bool running = true;
+
             while (running)
             {
                 Console.Clear();
-                Console.WriteLine("\"Welkom bij Vlammend Varken. Genieten staat bij ons centraal. Eet smakelijk!\"");
+                Console.WriteLine("-- Chef-kok menu --");
                 Console.WriteLine();
-                Console.WriteLine("1. Nieuw gerecht aanmaken");
+                Console.WriteLine("1. Nieuw gerecht toevoegen");
                 Console.WriteLine("2. Het menu bekijken");
-                Console.WriteLine("3. Een bestelling plaatsen");
-                Console.WriteLine("4. Een gerecht aanpassen");
-                Console.WriteLine("5. Status van een bestelling bekijken");
-                Console.WriteLine("6. Alle geplaatste bestellingen tonen");
-                Console.WriteLine("7. Inzicht in bezette en vrije tafels");
                 Console.WriteLine("0. Programma beëindigen");
                 Console.WriteLine();
 
@@ -43,209 +29,78 @@ namespace DigitaalBestelsysteem
                 switch (keuze)
                 {
                     case "1":
-                        NieuwGerecht();
+                        NieuwGerecht(dAL);
                         break;
                     case "2":
-                        ToonMenu();
-                        break;
-                    case "3":
-                        BestellingPlaatsen();
-                        break;
-                    case "4":
-                        GerechtAanpassen();
-                        break;
-                    case "5":
-                        BestellingStatusBekijken();
-                        break;
-                    case "6":
-                        ToonAlleBestellingen();
-                        break;
-                    case "7":
-                        ToonTafels();
+                        List<MenuItem> menuItems = dAL.ReadMenu();
+                        ToonMenu(menuItems);
                         break;
                     case "0":
                         running = false;
                         break;
                     default:
-                        Console.WriteLine("Ongeldige keuze.");
+                        Console.WriteLine("Ongeldige keuze. Druk op een toets...");
+                        Console.ReadKey();
                         break;
                 }
             }
         }
 
-         static void NieuwGerecht()
+        static void NieuwGerecht(DAL dAL)
         {
             // Implementatie voor het aanmaken van een nieuw gerecht
+            MenuItem menuItem = new MenuItem();
+            
             Console.Clear();
             Console.WriteLine("-- Nieuw gerecht aanmaken --");
             Console.WriteLine();
 
             Console.Write("Naam: ");
-            string name = Console.ReadLine();
+            menuItem.Name = Console.ReadLine();
 
             Console.Write("Prijs: ");
-            decimal price = decimal.Parse(Console.ReadLine());
+            menuItem.Price = decimal.Parse(Console.ReadLine());
 
             Console.Write("Categorie: ");
-            string category = Console.ReadLine();
+            menuItem.Category = Console.ReadLine();
 
             Console.Write("Beschrijving: ");
-            string description = Console.ReadLine();
+            menuItem.Description = Console.ReadLine();
 
-            MenuItem item = new MenuItem(nextMenuId++, name, price, category, description);
-            menu.Add(item);
+            dAL.CreateMenu(menuItem);
 
             Console.WriteLine();
-            Pauze("Het gerecht is toegevoegd aan het menu.");
+            Console.WriteLine("Gerecht toegevoegd! Druk op een toets om terug te gaan...");
+            Console.ReadKey();
+
         }
 
-        static void ToonMenu()
+        static void ToonMenu(List<MenuItem> menuItems)
+
         {
             // Implementatie voor het tonen van het menu
             Console.Clear();
             Console.WriteLine("-- Menu --");
             Console.WriteLine();
 
-            if (menu.Count == 0)
+            if (menuItems.Count == 0)
             {
                 Console.WriteLine("Het menu is leeg.");
-                Pauze();
+                Console.WriteLine("Druk op een toets om terug te gaan...");
+                Console.ReadKey();
                 return;
             }
 
-            foreach (var item in menu)
+            foreach (var item in menuItems)
             {
                 Console.WriteLine($"{item.Id}. {item.Name} - €{item.Price} ({item.Category})");
                 Console.WriteLine($"{item.Description}");
                 Console.WriteLine();
             }
-            Pauze();
-        }
-        // Extra methode om menu te printen zonder pauze
-        static void PrintMenu()
-        {
-            Console.WriteLine("-- Menu --");
-            Console.WriteLine();
 
-            for (int i = 0; i < menu.Count; i++)
-            {
-                MenuItem item = menu[i];
-                Console.WriteLine($"{item.Id}. {item.Name} - €{item.Price} ({item.Category})");
-                Console.WriteLine($"{item.Description}");
-                Console.WriteLine();
-            }
-        }
-
-        static void BestellingPlaatsen()
-        {
-            // Implementatie voor het plaatsen van een bestelling
-            Console.Clear();
-            Console.WriteLine("-- Bestelling plaatsen --");
-            Console.WriteLine();
-
-            if (menu.Count == 0)
-            {
-                Pauze("Het menu is leeg. Er kunnen geen bestellingen worden geplaatst.");
-                return;
-            }
-
-            Console.Write("Tafelnummer: ");
-            int tafel = int.Parse(Console.ReadLine());
-
-            Order order = new Order(nextOrderId++, tafel);
-
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine($"Bestelling #{order.Id} | Tafel {order.TableNumber}");
-                Console.WriteLine();
-
-                // Menu tonen zonder pauze
-                PrintMenu();
-
-
-                Console.Write("Kies menu-id (0 = afronden): ");
-                int id = int.Parse(Console.ReadLine());
-
-                if (id == 0)
-                {
-                    break;
-                }
-
-                MenuItem gekozen = ZoekMenuItemOpId(id);
-
-                if (gekozen == null)
-                {
-                    Console.WriteLine("Ongeldig menu-id.");
-                    Pauze();
-                    continue;
-                }
-
-                Console.Write("Aantal: ");
-                int aantal = int.Parse(Console.ReadLine());
-
-                order.Lines.Add(new OrderLine(gekozen, aantal));
-                Console.WriteLine($"{aantal} x {gekozen.Name} toegevoegd aan de bestelling.");
-                Pauze();
-            }
-
-
-            if (order.Lines.Count == 0)
-            {
-                Pauze($"De bestelling is opgeslagen.");
-            }
-            else
-            {
-                Pauze("Er zijn geen items toegevoegd. De bestelling is niet opgeslagen.");
-            }
-
-            static MenuItem ZoekMenuItemOpId(int id)
-            {
-                foreach (var item in menu)
-                {
-                    if (item.Id == id)
-                    {
-                        return item;
-                    }
-                }
-                return null;
-            }
-
+            Console.WriteLine("Druk op een toets om terug te gaan...");
+            Console.ReadKey();
 
         }
-
-        static void GerechtAanpassen()
-        {
-            // Implementatie voor het aanpassen van een gerecht
-            Console.WriteLine("Gerecht aanpassen");
-        }
-
-        static void BestellingStatusBekijken()
-        {
-            // Implementatie voor het bekijken van de status van een bestelling
-            Console.WriteLine("Status van een bestelling bekijken");
-        }
-        
-        static void ToonAlleBestellingen()
-        {
-            // Implementatie voor het tonen van alle bestellingen
-            Console.WriteLine("Alle geplaatste bestellingen:");
-        }
-
-        static void ToonTafels()
-        {   // Implementatie voor het tonen van bezette en vrije tafels
-            Console.WriteLine("Inzicht in bezette en vrije tafels");
-        }
-
-        static void Pauze(string tekst = "")
-        {
-            if (tekst != "")
-                Console.WriteLine(tekst);
-
-            Console.WriteLine();
-            Console.Write("Druk op ENTER om verder te gaan...");
-            Console.ReadLine();
-        }
-
     }
-}   
+}
