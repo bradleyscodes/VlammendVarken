@@ -22,5 +22,12 @@ namespace DigitaalBestelsysteem
             Category = category;
             Description = description;
         }
+
+        public override void DisplayInfo()
+        {
+            Console.WriteLine($"{Id}. {Name} - €{Price} ({Category})");
+            Console.WriteLine($"{Description}");
+            Console.WriteLine();
+        }   
     }
 }

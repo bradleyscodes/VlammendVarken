@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DigitaalBestelsysteem
 {
-    public class Product
+    public abstract class Product
     {
         public int Id { get; set; } = 0;
         public string Name { get; set; }
@@ -19,6 +19,8 @@ namespace DigitaalBestelsysteem
             Name = name;
             Price = price;
         }
-            
+
+        public abstract void DisplayInfo();
+
     }
 }

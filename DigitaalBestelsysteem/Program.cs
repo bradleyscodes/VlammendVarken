@@ -16,11 +16,15 @@ namespace DigitaalBestelsysteem
             while (running)
             {
                 Console.Clear();
-                Console.WriteLine("-- Chef-kok menu --");
+                Console.WriteLine("-- Digitaal bestelsysteem --");
                 Console.WriteLine();
-                Console.WriteLine("1. Nieuw gerecht toevoegen");
-                Console.WriteLine("2. Het menu bekijken");
-                Console.WriteLine("0. Programma beëindigen");
+                Console.WriteLine("Wat is jouw rol?");
+                Console.WriteLine();
+                Console.WriteLine("1. Gast (niet geïmplementeerd)");
+                Console.WriteLine("2. Ober (niet geïmplementeerd)");
+                Console.WriteLine("3. Chef-kok");
+                Console.WriteLine("4. Leverancier (niet geïmplementeerd)");
+                Console.WriteLine("0. Afsluiten");
                 Console.WriteLine();
 
                 Console.Write("Maak een keuze: ");
@@ -29,11 +33,16 @@ namespace DigitaalBestelsysteem
                 switch (keuze)
                 {
                     case "1":
-                        NieuwGerecht(dAL);
+                        ToonNietUitgewerkt(new UserRole("Gast"));
                         break;
                     case "2":
-                        List<MenuItem> menuItems = dAL.ReadMenu();
-                        ToonMenu(menuItems);
+                        ToonNietUitgewerkt(new UserRole("Ober"));
+                        break;
+                    case "3":
+                        ChefKokMenu(dAL);
+                        break;
+                    case "4":
+                        ToonNietUitgewerkt(new UserRole("Leverancier"));
                         break;
                     case "0":
                         running = false;
@@ -44,11 +53,61 @@ namespace DigitaalBestelsysteem
                         break;
                 }
             }
+
+            // Helper voor rollen die nog niet zijn uitgewerkt
+
+            static void ToonNietUitgewerkt(UserRole role)
+            {
+                Console.Clear();
+                Console.WriteLine($"Rol: {role.Name}");
+                Console.WriteLine();
+                Console.WriteLine("Deze functionaliteit is nog niet uitgewerkt.");
+                Console.WriteLine();
+                Console.WriteLine("Druk op een toets om terug te gaan...");
+                Console.ReadKey();
+            }
+
+            static void ChefKokMenu(DAL dAL)
+            {
+                bool running = true;
+
+                while (running)
+                {
+                    Console.Clear();
+                    Console.WriteLine("-- Chef-kok menu --");
+                    Console.WriteLine();
+                    Console.WriteLine("1. Nieuw gerecht toevoegen");
+                    Console.WriteLine("2. Het menu bekijken");
+                    Console.WriteLine("0. Afsluiten");
+                    Console.WriteLine();
+
+                    Console.Write("Maak een keuze: ");
+                    string keuze = Console.ReadLine();
+
+                    switch (keuze)
+                    {
+                        case "1":
+                            NieuwGerecht(dAL);
+                            break;
+                        case "2":
+                            List<MenuItem> menuItems = dAL.ReadMenu();
+                            ToonMenu(menuItems);
+                            break;
+                        case "0":
+                            running = false;
+                            break;
+                        default:
+                            Console.WriteLine("Ongeldige keuze. Druk op een toets...");
+                            Console.ReadKey();
+                            break;
+                    }
+                }
+            }
         }
 
+        // Implementatie voor het aanmaken van een nieuw gerecht
         static void NieuwGerecht(DAL dAL)
         {
-            // Implementatie voor het aanmaken van een nieuw gerecht
             MenuItem menuItem = new MenuItem();
             
             Console.Clear();
@@ -75,10 +134,10 @@ namespace DigitaalBestelsysteem
 
         }
 
+        // Implementatie voor het tonen van het menu
         static void ToonMenu(List<MenuItem> menuItems)
 
         {
-            // Implementatie voor het tonen van het menu
             Console.Clear();
             Console.WriteLine("-- Menu --");
             Console.WriteLine();
@@ -93,9 +152,7 @@ namespace DigitaalBestelsysteem
 
             foreach (var item in menuItems)
             {
-                Console.WriteLine($"{item.Id}. {item.Name} - €{item.Price} ({item.Category})");
-                Console.WriteLine($"{item.Description}");
-                Console.WriteLine();
+                item.DisplayInfo();
             }
 
             Console.WriteLine("Druk op een toets om terug te gaan...");
