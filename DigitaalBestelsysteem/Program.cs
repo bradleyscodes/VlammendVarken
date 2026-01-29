@@ -118,7 +118,20 @@ namespace DigitaalBestelsysteem
             menuItem.Name = Console.ReadLine();
 
             Console.Write("Prijs: ");
-            menuItem.Price = decimal.Parse(Console.ReadLine());
+            string priceInput = Console.ReadLine();
+
+            // Controleer of de prijs een geldig decimaal getal is
+            if (!decimal.TryParse(priceInput, out decimal price))
+            {
+                Console.WriteLine();
+                Console.WriteLine("Ongeldige prijsinvoer.");
+                Console.WriteLine();
+                Console.WriteLine("Druk op een toets om terug te gaan...");
+                Console.ReadKey();
+                return;
+            }
+            menuItem.Price = price;
+
 
             Console.Write("Categorie: ");
             menuItem.Category = Console.ReadLine();
@@ -144,7 +157,9 @@ namespace DigitaalBestelsysteem
 
             if (menuItems.Count == 0)
             {
+                Console.WriteLine();
                 Console.WriteLine("Het menu is leeg.");
+                Console.WriteLine();
                 Console.WriteLine("Druk op een toets om terug te gaan...");
                 Console.ReadKey();
                 return;
